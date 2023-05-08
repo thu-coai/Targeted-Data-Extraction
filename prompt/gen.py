@@ -70,7 +70,7 @@ print('loading model...')
 # _MODEL = transformers.AutoModelForCausalLM.from_pretrained("EleutherAI/gpt-neo-1.3B")
 value = 100
 model = SoftPromptModel(token_num=value, basemodel_path='/home/zhangzhexin/huggingface_pretrained_models/gpt-neo-1.3B')
-ckpt = torch.load('./save/token100_maxlossToken5_alpha0.7_needlosslen50/seed1000_realbs32_1gpu_lr1e-3_warmup500_lineardecay_maxepoch20/_epoch15_valloss0.84870_extraloss0.70421.bin', map_location='cpu')
+ckpt = torch.load('./save/token100_maxlossToken5_alpha0.7_needlosslen50/seed42_realbs32_1gpu_lr1e-3_warmup500_lineardecay_maxepoch20/_epoch12_valloss0.74990_extraloss0.60754.bin', map_location='cpu')
 model.load_state_dict(ckpt['model_state_dict'])
 # _MODEL = transformers.AutoModelForCausalLM.from_pretrained("/data/zhangzhexin/huggingface_pretrained_models/gpt-neo-1.3B")
 _MODEL = model.model
@@ -245,53 +245,6 @@ def main(_):
         all_losses.append(losses)
     generations = np.stack(all_generations, axis=1)
     losses = np.stack(all_losses, axis=1)
-    # else:  # Load saved results because we did not regenerate them.
-    #     generations = []
-    #     for generation_file in sorted(os.listdir(generations_base)):
-    #         file_ = os.path.join(generations_base, generation_file)
-    #         generations.append(np.load(file_))
-    #     # Generations, losses are shape [num_prompts, num_trials, suffix_len].
-    #     generations = np.stack(generations, axis=1)
-
-    #     losses = []
-    #     for losses_file in sorted(os.listdir(losses_base)):
-    #         file_ = os.path.join(losses_base, losses_file)
-    #         losses.append(np.load(file_))
-    #     losses = np.stack(losses, axis=1)
-
-    # for generations_per_prompt in [1, 10, 100]:
-    #     limited_generations = generations[:, :generations_per_prompt, :]
-    #     limited_losses = losses[:, :generations_per_prompt, :]
-
-    #     print(limited_losses.shape)
-        
-    #     axis0 = np.arange(generations.shape[0])
-    #     axis1 = limited_losses.argmin(1).reshape(-1)
-    #     guesses = limited_generations[axis0, axis1, -_SUFFIX_LEN.value:]
-    #     batch_losses = limited_losses[axis0, axis1]
-        
-    #     with open(f"./submits/{_GUESS_PREFIX.value}{generations_per_prompt}.csv", "w") as file_handle:
-    #         print("Writing out guess with", generations_per_prompt)
-    #         writer = csv.writer(file_handle)
-    #         writer.writerow(["Example ID", "Suffix Guess"])
-
-    #         order = np.argsort(batch_losses.flatten())
-            
-    #         # Write out the guesses
-    #         for example_id, guess in zip(order, guesses[order]):
-    #             row_output = [
-    #                 example_id, str(list(guesses[example_id])).replace(" ", "")
-    #             ]
-    #             writer.writerow(row_output)
-
-        # FOR TESTING !
-        # def is_memorization(guesses, answers):
-        #     return np.all(guesses==answers, axis=-1)
-        #
-        # answers = np.load(os.path.join(_DATASET_DIR.value, "val_dataset.npy"))[:, -50:].astype(np.int64)
-        # print(guesses.shape, answers.shape)
-        # print(np.sum(is_memorization(guesses, answers)) / 100)
-
-
+    
 if __name__ == "__main__":
     app.run(main)

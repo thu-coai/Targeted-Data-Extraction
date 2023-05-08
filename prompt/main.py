@@ -151,34 +151,7 @@ def train_and_validate(args):
                 outputs = model(input_ids)
                 loss = outputs.loss
             else:
-                input_ids = batch['input_ids']
-                outputs = model(input_ids)
-                neg_input_ids = batch['neg_input_ids']
-                neg_outputs = model(neg_input_ids)
-                if args.neg_loss == 'margin':
-                    mask = batch['mask']
-                    pos_loss = torch.masked_select(outputs.each_loss, mask)
-                    neg_loss = torch.masked_select(neg_outputs.each_loss, mask)
-                    margin_fc = torch.nn.MarginRankingLoss(margin=args.margin)
-                    target = torch.ones_like(pos_loss)
-                    margin_loss = margin_fc(neg_loss, pos_loss, target)
-                    # print(f'poss loss:{pos_loss.tolist()}, neg loss:{neg_loss.tolist()}, mask:{mask.tolist()}')
-                    # print(f'mle loss:{outputs.loss.item()}, margin loss:{margin_loss.item()}')
-                    loss = outputs.loss + margin_loss
-                elif args.neg_loss == 'contrastive':
-                    mask = batch['mask']
-                    pos_loss = torch.masked_select(outputs.each_loss, mask)
-                    neg_loss = torch.masked_select(neg_outputs.each_loss, mask)
-                    
-                    stack_loss = -torch.stack([pos_loss, neg_loss], dim=1)
-                    stack_loss /= args.temperature
-                    log_softmax_loss = -F.log_softmax(stack_loss, dim=-1)[:, 0]
-                    # print(stack_loss, log_softmax_loss)
-                    contrastive_loss = log_softmax_loss.mean()
-                    # print(f'mle loss:{outputs.loss.item()}, contrastive loss:{contrastive_loss.item()}')
-
-                    loss = outputs.loss + contrastive_loss
-                
+                pass
             
             avg_loss.append(accelerator.gather(loss).mean().item())
             loss = loss / args.gradient_accumulation_steps

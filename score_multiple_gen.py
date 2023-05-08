@@ -25,7 +25,6 @@ import zlib
 import os
 from tqdm import tqdm
 from collections import Counter
-from sklearn.metrics import roc_auc_score
 
 tokenizer = transformers.GPT2Tokenizer.from_pretrained("/home/zhangzhexin/huggingface_pretrained_models/gpt2")
 
@@ -79,7 +78,7 @@ else:
     prefixs = np.load(prefix_path)
     sample_num = len(answers)
 
-compute_using_num = 25 # sample time
+compute_using_num = 100 # sample time
 
 preds = [[] for _ in range(sample_num)]
 losses = [[] for _ in range(sample_num)]
@@ -102,7 +101,7 @@ conf_type = 'ours'
 
 for i in range(compute_using_num):
     
-    resdir = f'./prompt/res/genseed2022_trainseed1000_token100_maxlossToken5_alpha0.7_lr1e-3_warmup500_1gpu_maxepoch20_half_topp0.7_temp0.8_trial100'
+    resdir = f'./prompt/res/genseed2022_trainseed42_token100_maxlossToken5_alpha0.7_lr1e-3_warmup500_1gpu_maxepoch20_half_topp0.7_temp0.8_trial100'
     a = np.load(f'{resdir}/generations/{i}.npy')
     b = np.load(f'{resdir}/losses/{i}.npy').reshape(-1)
     if use_all_token_loss:

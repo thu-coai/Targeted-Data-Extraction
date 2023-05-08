@@ -1,6 +1,6 @@
 file_path=../datasets/train_prefix.npy
 # file_path=./data/valid_prefix.npy
-CUDA_VISIBLE_DEVICES=1 python gen.py --root-dir res/ --experiment-name genseed2022_trainseed1000_token100_maxlossToken5_alpha0.7_lr1e-3_warmup500_1gpu_maxepoch20_half_topp0.7_temp0.8_trial100/ --num-trials 100 \
+CUDA_VISIBLE_DEVICES=2 python gen.py --root-dir res/ --experiment-name genseed2022_trainseed42_token100_maxlossToken5_alpha0.7_lr1e-3_warmup500_1gpu_maxepoch20_half_topp0.7_temp0.8_trial100/ --num-trials 100 \
     --guess-prefix=guess --file-path=${file_path} \
     --prefix-len=50 --suffix-len=50 --chunk=1000 --bs=64 --seed=2022
 

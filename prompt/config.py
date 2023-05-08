@@ -1,7 +1,7 @@
 import argparse
 
 def parse_args():
-    parser = argparse.ArgumentParser(description="Weixin Challenge 2022")
+    parser = argparse.ArgumentParser(description="Targeted Data Extraction")
 
     parser.add_argument("--seed", type=int, default=2022, help="random seed.")
     parser.add_argument("--local_rank", type=int, default=0)
@@ -50,19 +50,6 @@ def parse_args():
     parser.add_argument('--savedmodel_path', type=str)
     parser.add_argument('--ckpt_file', type=str, help='save prefix for ckpt file')
     parser.add_argument('--ckpt_path', type=str, help='fine-tuned model path')
-
-    # ======================== Pretrain Configs =========================
-    parser.add_argument('--pretrain_task', type=str, help='pretrain task', default='replacespan')
-    parser.add_argument('--replace_ratio', type=float, default=0.4)
-    parser.add_argument('--replace_spanlen', type=int, default=2)
-    parser.add_argument('--replacespan_rotonly', type=int, default=1)
-    parser.add_argument('--rotselection_hardneg', type=int, default=0)
-    parser.add_argument('--rotselection_weight', type=float, default=1)
-    parser.add_argument('--replacespan_weight', type=float, default=1)
-    parser.add_argument('--genresponse_weight', type=float, default=1)
-    parser.add_argument('--actionsafety_weight', type=float, default=1)
-
-
 
     
     # ========================= Learning Configs ==========================

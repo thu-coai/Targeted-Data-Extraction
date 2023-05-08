@@ -1,7 +1,7 @@
 data_dir=data
 max_epoch=20
-CUDA_VISIBLE_DEVICES=0 python -m torch.distributed.launch --nproc_per_node 1 \
-    --master_port 29587 \
+CUDA_VISIBLE_DEVICES=3 python -m torch.distributed.launch --nproc_per_node 1 \
+    --master_port 29584 \
     main.py --train_prefix_path=./${data_dir}/train_prefix.npy \
     --val_prefix_path=./${data_dir}/valid_prefix.npy \
     --train_suffix_path=./${data_dir}/train_suffix.npy \
@@ -20,9 +20,9 @@ CUDA_VISIBLE_DEVICES=0 python -m torch.distributed.launch --nproc_per_node 1 \
     --pretrained_model_path= \
     --batch_size=16 --val_batch_size=16 --num_workers=4 \
     --gradient_accumulation_steps=2 \
-    --seed=1000 \
+    --seed=42 \
     --fp16= \
-    --savedmodel_path=./save/token100_maxlossToken5_alpha0.7_needlosslen50/seed1000_realbs32_1gpu_lr1e-3_warmup500_lineardecay_maxepoch${max_epoch} --ckpt_file='' \
+    --savedmodel_path=./save/token100_maxlossToken5_alpha0.7_needlosslen50/seed42_realbs32_1gpu_lr1e-3_warmup500_lineardecay_maxepoch${max_epoch} --ckpt_file='' \
     --max_epochs=${max_epoch} --warmup_steps=500 --warmup_ratio=0 \
     --learning_rate=1e-3 \
     --lr_decay=linear --patience=5 \
